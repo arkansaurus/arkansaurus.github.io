@@ -12,7 +12,7 @@
   <header>
     <h1>arkansaurus</h1>
     <div class="header-right">
-      <span class="asp-label">⬡ ASP ONLINE</span>
+      <span class="asp-label">ASP</span>
       <span class="asp-round" id="asp-round-counter">Round #0</span>
       <button class="btn btn-primary" onclick="openBoardModal()">+ Boarding</button>
     </div>
@@ -22,7 +22,7 @@
 
     <div class="vtxo-panel glass">
       <div class="vtxo-panel-title">
-        <span>⬡ VTXO LINK MAP</span>
+        <span>VTXO LINK MAP</span>
       </div>
       <div id="leak-alert-toast" class="leak-alert"></div>
       <div class="vtxo-graph-wrap" id="vtxo-graph-wrap">
@@ -74,7 +74,7 @@
       </div>
 
       <div class="log-panel glass">
-        <div class="log-title">⬡ ASP Event Log</div>
+        <div class="log-title">ASP Logs</div>
         <div class="log-container" id="log-list">
           <div class="log-entry asp"><span class="log-timestamp">[03:00:22]</span> [SYSTEM] arkd operator v0.9.0 started...</div>
         </div>
@@ -85,8 +85,8 @@
 
   <div id="send-modal" class="modal-overlay">
     <div class="modal-box glass">
-      <h3>Send VTXO</h3>
-      <label>Target Address</label>
+      <h3>Spend VTXO</h3>
+      <label>Recipient</label>
       <select id="modal-to" class="modal-input">
         <option value="alice">Alice</option>
         <option value="bob">Bob</option>
@@ -96,7 +96,7 @@
       <input type="number" id="modal-amount" class="modal-input" placeholder="1000000">
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('send-modal')">Cancel</button>
-        <button class="btn btn-primary" onclick="confirmSend()">Send Payment</button>
+        <button class="btn btn-primary" onclick="confirmSend()">Send</button>
       </div>
     </div>
   </div>
@@ -104,7 +104,7 @@
   <div id="board-modal" class="modal-overlay">
     <div class="modal-box glass">
       <h3>Onboard Funds</h3>
-      <label>Target User</label>
+      <label>User</label>
       <select id="board-user" class="modal-input">
         <option value="alice">Alice</option>
         <option value="bob">Bob</option>
