@@ -221,18 +221,11 @@ header h1 {
   overflow: hidden;
 }
 
-.user-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-}
-.alice-card::before { background: var(--alice); box-shadow: 0 0 8px var(--alice); }
-.bob-card::before   { background: var(--bob);   box-shadow: 0 0 8px var(--bob); }
-.carol-card::before { background: var(--carol); box-shadow: 0 0 8px var(--carol); }
+.alice-card .card-header strong { color: var(--alice); font-weight: 700; }
+.bob-card .card-header strong   { color: var(--bob);   font-weight: 700; }
+.carol-card .card-header strong { color: var(--carol); font-weight: 700; }
 
 .card-danger { outline: 1px solid var(--danger) !important; }
-.card-danger::before { background: var(--danger) !important; box-shadow: 0 0 10px var(--danger) !important; }
 
 .card-header {
   display: flex;
