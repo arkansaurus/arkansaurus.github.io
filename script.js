@@ -93,15 +93,20 @@ function confirmSend() {
 
     if (amount > state.users[from].balance) { alert('Amount exceeds balance'); return; }
 
-    const inputVtxo    = state.users[from].vtxos.pop();
-    state.users[from].balance -= inputVtxo.amount;
+    const inputs = [];
+    let collected = 0;
+    while (collected < amount && state.users[from].vtxos.length > 0) {
+        const v = state.users[from].vtxos.pop();
+        inputs.push(v);
+        collected += v.amount;
+    }
 
     const payId        = randId();
     const changeId     = randId();
-    const changeAmount = inputVtxo.amount - amount;
+    const changeAmount = collected - amount;
 
     state.users[to].balance   += amount;
-    state.users[from].balance += changeAmount;
+    state.users[from].balance -= amount;
     state.users[to].vtxos.push({ id: payId, amount, owner: to });
     if (changeAmount > 0) {
         state.users[from].vtxos.push({ id: changeId, amount: changeAmount, owner: from });
@@ -110,13 +115,13 @@ function confirmSend() {
 
     showLeak('VTXO LINK');
     addLog(`ASP logged transfer ${from} → ${to}`, 'leak');
-    addLog(`Spending VTXO [ID: ${inputVtxo.id}, Amount: ${inputVtxo.amount}]`);
+    inputs.forEach(v => addLog(`Spending VTXO [ID: ${v.id}, Amount: ${v.amount}]`));
     addLog(`Creating New VTXO [ID: ${payId}, Amount: ${amount}] (Payment to ${to})`);
     if (changeAmount > 0) {
         addLog(`Creating New VTXO [ID: ${changeId}, Amount: ${changeAmount}] (Change to ${from})`);
     }
 
-    visualizeTransfer(inputVtxo.id, payId, changeId, to, from, amount, changeAmount);
+    visualizeTransfer(inputs.map(v => v.id), payId, changeId, to, from, amount, changeAmount);
     updateUI();
     closeModal('send-modal');
 }
@@ -184,17 +189,18 @@ function triggerExit(user) {
 }
 
 
-function visualizeTransfer(oldId, payId, changeId, payOwner, changeOwner, payAmt, changeAmt) {
-    const parent = state.vtxoGraph.find(n => n.id === oldId);
-    if (!parent) return;
+function visualizeTransfer(oldIds, payId, changeId, payOwner, changeOwner, payAmt, changeAmt) {
+    const inputs = oldIds.map(id => state.vtxoGraph.find(n => n.id === id)).filter(Boolean);
+    if (inputs.length === 0) return;
 
-    markSpent(oldId);
+    inputs.forEach(n => markSpent(n.id));
 
-    const cx = parent.cx + COL_GAP;
+    const rightmost = [...inputs].sort((a, b) => b.cx - a.cx)[0];
+    const cx = rightmost.cx + COL_GAP;
 
     if (changeAmt > 0) {
-        const rawPayCy    = parent.cy - ROW_GAP / 2;
-        const rawChangeCy = parent.cy + ROW_GAP / 2;
+        const rawPayCy    = rightmost.cy - ROW_GAP / 2;
+        const rawChangeCy = rightmost.cy + ROW_GAP / 2;
         const shift = Math.max(0, (PAD + NODE_R) - rawPayCy);
         const payCy    = clampCy(rawPayCy    + shift);
         const changeCy = clampCy(rawChangeCy + shift);
@@ -202,13 +208,17 @@ function visualizeTransfer(oldId, payId, changeId, payOwner, changeOwner, payAmt
         placeNode(payId,    payOwner,    payAmt,    cx, payCy);
         placeNode(changeId, changeOwner, changeAmt, cx, changeCy);
 
-        drawLine(parent.cx, parent.cy, cx, payCy,    COLOR_HEX[payOwner],    false);
-        drawLine(parent.cx, parent.cy, cx, changeCy, COLOR_HEX[changeOwner], false);
-        drawDot(parent.cx, parent.cy, COLOR_HEX[parent.owner]);
+        inputs.forEach(n => {
+            drawLine(n.cx, n.cy, cx, payCy,    COLOR_HEX[payOwner],    false);
+            drawLine(n.cx, n.cy, cx, changeCy, COLOR_HEX[changeOwner], false);
+            drawDot(n.cx, n.cy, COLOR_HEX[n.owner]);
+        });
     } else {
-        const cy = clampCy(parent.cy);
+        const cy = clampCy(rightmost.cy);
         placeNode(payId, payOwner, payAmt, cx, cy);
-        drawLine(parent.cx, parent.cy, cx, cy, COLOR_HEX[payOwner], false);
+        inputs.forEach(n => {
+            drawLine(n.cx, n.cy, cx, cy, COLOR_HEX[payOwner], false);
+        });
     }
 }
 
