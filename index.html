@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>arkansaurus</title>
+<link rel="stylesheet" href="https://unpkg.com/@zumer/orbit@latest/dist/orbit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>arkansaurus</h1>
+    <div class="header-right">
+      <span class="asp-label">⬡ ASP ONLINE</span>
+      <span class="asp-round" id="asp-round-counter">Round #0</span>
+      <button class="btn btn-primary" onclick="openBoardModal()">+ Boarding</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <div class="vtxo-panel glass">
+      <div class="vtxo-panel-title">
+        <span>⬡ VTXO LINK MAP</span>
+      </div>
+      <div id="leak-alert-toast" class="leak-alert"></div>
+      <div class="vtxo-graph-wrap" id="vtxo-graph-wrap">
+        <svg id="vtxo-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div id="vtxo-graph"></div>
+
+      </div>
+    </div>
+
+    <aside class="sidebar">
+
+      <div id="alice" class="user-card glass alice-card">
+        <div class="card-header">
+          <span></span><strong>Alice</strong>
+          <span class="user-balance" id="alice-balance">0 sats</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-ghost" onclick="openSendModal('alice')">Send</button>
+          <button class="btn btn-ghost" onclick="triggerRound('alice')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerExit('alice')">Exit</button>
+          <button class="btn btn-ghost" onclick="checkBalance('alice')">Balance</button>
+        </div>
+      </div>
+
+      <div id="bob" class="user-card glass bob-card">
+        <div class="card-header">
+          <span></span><strong>Bob</strong>
+          <span class="user-balance" id="bob-balance">0 sats</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-ghost" onclick="openSendModal('bob')">Send</button>
+          <button class="btn btn-ghost" onclick="triggerRound('bob')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerExit('bob')">Exit</button>
+          <button class="btn btn-ghost" onclick="checkBalance('bob')">Balance</button>
+        </div>
+      </div>
+
+      <div id="carol" class="user-card glass carol-card">
+        <div class="card-header">
+          <span></span><strong>Carol</strong>
+          <span class="user-balance" id="carol-balance">0 sats</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-ghost" onclick="openSendModal('carol')">Send</button>
+          <button class="btn btn-ghost" onclick="triggerRound('carol')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerExit('carol')">Exit</button>
+          <button class="btn btn-ghost" onclick="checkBalance('carol')">Balance</button>
+        </div>
+      </div>
+
+      <div class="log-panel glass">
+        <div class="log-title">⬡ ASP Event Log</div>
+        <div class="log-container" id="log-list">
+          <div class="log-entry asp"><span class="log-timestamp">[03:00:22]</span> [SYSTEM] arkd operator v0.9.0 started...</div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <div id="send-modal" class="modal-overlay">
+    <div class="modal-box glass">
+      <h3>Send VTXO</h3>
+      <label>Target Address</label>
+      <select id="modal-to" class="modal-input">
+        <option value="alice">Alice</option>
+        <option value="bob">Bob</option>
+        <option value="carol">Carol</option>
+      </select>
+      <label>Amount (sats)</label>
+      <input type="number" id="modal-amount" class="modal-input" placeholder="1000000">
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('send-modal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmSend()">Send Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="board-modal" class="modal-overlay">
+    <div class="modal-box glass">
+      <h3>Onboard Funds</h3>
+      <label>Target User</label>
+      <select id="board-user" class="modal-input">
+        <option value="alice">Alice</option>
+        <option value="bob">Bob</option>
+        <option value="carol">Carol</option>
+      </select>
+      <label>Amount (sats)</label>
+      <input type="number" id="board-amount" class="modal-input" value="10000000">
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('board-modal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmBoard()">Onboard User</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
