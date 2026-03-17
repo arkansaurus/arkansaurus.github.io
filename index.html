@@ -41,7 +41,7 @@
         </div>
         <div class="card-actions">
           <button class="btn btn-ghost" onclick="openSendModal('alice')">Send</button>
-          <button class="btn btn-ghost" onclick="triggerRound('alice')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerRound('alice')">Refresh</button>
           <button class="btn btn-ghost" onclick="triggerExit('alice')">Exit</button>
           <button class="btn btn-ghost" onclick="checkBalance('alice')">Balance</button>
         </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="card-actions">
           <button class="btn btn-ghost" onclick="openSendModal('bob')">Send</button>
-          <button class="btn btn-ghost" onclick="triggerRound('bob')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerRound('bob')">Refresh</button>
           <button class="btn btn-ghost" onclick="triggerExit('bob')">Exit</button>
           <button class="btn btn-ghost" onclick="checkBalance('bob')">Balance</button>
         </div>
@@ -67,7 +67,7 @@
         </div>
         <div class="card-actions">
           <button class="btn btn-ghost" onclick="openSendModal('carol')">Send</button>
-          <button class="btn btn-ghost" onclick="triggerRound('carol')">Round</button>
+          <button class="btn btn-ghost" onclick="triggerRound('carol')">Refresh</button>
           <button class="btn btn-ghost" onclick="triggerExit('carol')">Exit</button>
           <button class="btn btn-ghost" onclick="checkBalance('carol')">Balance</button>
         </div>
@@ -76,7 +76,7 @@
       <div class="log-panel glass">
         <div class="log-title">ASP Logs</div>
         <div class="log-container" id="log-list">
-          <div class="log-entry asp"><span class="log-timestamp">[03:00:22]</span> [SYSTEM] arkd operator v0.9.0 started...</div>
+          <div class="log-entry asp"><span class="log-timestamp">[03:00:22]</span> [SYSTEM] arkd operator v0.9.0</div>
         </div>
       </div>
 
@@ -103,7 +103,7 @@
 
   <div id="board-modal" class="modal-overlay">
     <div class="modal-box glass">
-      <h3>Onboard Funds</h3>
+      <h3>Add Funds</h3>
       <label>User</label>
       <select id="board-user" class="modal-input">
         <option value="alice">Alice</option>
@@ -114,7 +114,7 @@
       <input type="number" id="board-amount" class="modal-input" value="10000000">
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('board-modal')">Cancel</button>
-        <button class="btn btn-primary" onclick="confirmBoard()">Onboard User</button>
+        <button class="btn btn-primary" onclick="confirmBoard()">Add</button>
       </div>
     </div>
   </div>
